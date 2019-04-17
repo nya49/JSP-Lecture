@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>회원 가입</title>
+<style>
+	label { display : block; padding-bottom:20px;}
+	span { float:left;  width : 100px; height:20px;}
+</style>
+</head>
+<body>
+	<h3>회원가입</h3>
+	<hr>
+	<form name="Registerform" action=/jspbook/member/registerProc.jsp method=post>
+			<label><span>PASSWORD : </span>
+				<input type="password" name="pass" size=10></label>
+			<label><span>이름 : </span>
+				<input type="text" name="name" size=10></label>
+			<label><span>생년월일 : </span>
+				<input type="text" name="birthday" size=10></label>
+			<label><span>주소 : </span>
+				<input type="text" name="address" size=10></label>
+			<label>
+				<input type="submit" value="회원가입" name="B1">&nbsp;&nbsp;
+				<input type="reset" value="재작성" name="B2">
+			</label>
+	</form>
+</body>
+</html>

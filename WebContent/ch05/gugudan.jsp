@@ -14,30 +14,29 @@
 			<tr>
 				<th bgcolor="green" width="30"></th>
 				<%
-				for(int i=2; i<10; i++){
-					++i;
+					for(int i=3; i<10; i+=2){
 				%>
 				<th bgcolor="green" width="30"><%=i %>단</th>
 				<%
 				}
 				%>
 			</tr>
-			
 			<%
-			for(int i=2; i<10; i++){
-				++i;
+				for(int i=3; i<10; i+=2){
 			%>
 			<tr>
 				<td align="center" ><%=i %></td>
-				<td align="center"><%=i*3 %></td>
-				<td align="center"><%=i*5 %></td>
-				<td align="center"><%=i*7 %></td>
-				<td align="center"><%=i*9 %></td>
-				
+				<%
+					for(int k=3; k<10; k+=2){
+				%>
+				<td align="center"><%=i*k %></td>
+				<%
+					}
+				%>
 			</tr>
 			<%
 				}
-				%>
+			%>
 		</table>
 		
 	</div>
