@@ -10,12 +10,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/member/loginProcServlet")
-public class loginProc extends HttpServlet {
+@WebServlet("/member/LoginProcServlet")
+public class LoginProc extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
        
-    public loginProc() {
+    public LoginProc() {
         super();
         // TODO Auto-generated constructor stub
     }

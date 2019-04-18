@@ -7,11 +7,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/member/registerProcServlet")
-public class registerProc extends HttpServlet {
+@WebServlet("/member/RegisterProcServlet")
+public class RegisterProc extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    public registerProc() {
+    public RegisterProc() {
         super();
         // TODO Auto-generated constructor stub
     }

@@ -9,11 +9,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/member/memberProcServlet")
-public class memberProc extends HttpServlet {
+@WebServlet("/member/MemberProcServlet")
+public class MemberProc extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    public memberProc() {
+    public MemberProc() {
         super();
         // TODO Auto-generated constructor stub
     }
