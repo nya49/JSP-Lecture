@@ -5,27 +5,34 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>login</title>
+<style>
+	label { display : block; padding-bottom:20px;}
+	span { float:right;  width : 100px; height:20px;}
+</style>
 </head>
 <body>
 	<%
 		String error = request.getParameter("error");
-		System.out.println(error);
+		//String error = (String) request.getAttribute("error");
 		if(error != null){
+			System.out.println(error);
 			out.println("<script>alert('" + error + "')</script>");
 		}
 	%>
 	<center>
 		<h3>Member Login</h3><br>
 		<hr>
-		<form name="Loginform" action=/jspbook/member/loginProc.jsp method=post>
-			<label><span>ID : </span>
-				<input type="text" name="id" size=10></label>
-			<label><span>PASSWORD : </span>
-				<input type="password" name="password" size=10></label><br><br>
-			<label><span></span>
-				<input type="submit" value="로그인" name="B1">&nbsp;&nbsp;
-				<button type="button" onclick="location.href='register.html' ">회원가입</button>
-			</label>
+		<form name="Loginform" action=/jspbook/member/loginProcServlet method=post>
+		<table>
+			<tr>
+				<td>ID : </td><td><input type="text" name="id" size=10></td>
+			</tr>
+			<tr>
+				<td>PASSWORD : </td><td><input type="password" name="password" size=10></td>
+			</tr>
+		</table><br>
+			<input type="submit" value="로그인" name="B1">&nbsp;&nbsp;
+			<button type="button" onclick="location.href='register.html'">회원가입</button>
 		</form>
 	</center>
 </body>
