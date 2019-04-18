@@ -31,7 +31,7 @@
 			<td><%=member.getBirthday() %></td>
 			<td><%=member.getAddress() %></td>
 			<%
-				String uri = "memberProcServlet?action=update&id=" + member.getId();
+				String uri = "MemberProcServlet?action=update&id=" + member.getId();
 			%>
 			<td>&nbsp;<button onclick="location.href='<%=uri %>'">수정</button>&nbsp;</td>
 		</tr>

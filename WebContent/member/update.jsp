@@ -17,7 +17,7 @@
 %>
 	<h3>회원정보 수정</h3>
 	<hr>
-	<form name="Registerform" action=/jspbook/member/updatememberProcServlet method=post>
+	<form name="Registerform" action=/jspbook/member/UpdatememberProcServlet method=post>
 		<input type="hidden" id="id" name="id" value="<%=member.getId() %>">
 		<label><span>아이디 : </span>
 				<%=member.getId() %></label>

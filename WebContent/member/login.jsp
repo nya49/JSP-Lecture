@@ -22,7 +22,7 @@
 	<center>
 		<h3>Member Login</h3><br>
 		<hr>
-		<form name="Loginform" action=/jspbook/member/loginProcServlet method=post>
+		<form name="Loginform" action=/jspbook/member/LoginProcServlet method=post>
 		<table>
 			<tr>
 				<td>ID : </td><td><input type="text" name="id" size=10></td>
