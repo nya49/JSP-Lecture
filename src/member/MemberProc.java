@@ -19,18 +19,34 @@ public class MemberProc extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		MemberDAO mDao = null;
+		RequestDispatcher rd = null;
 		String action = request.getParameter("action");
 		String strId = request.getParameter("id");
 		System.out.println(action + ", " + strId);
 		
 		switch(action) {
-		case "update" :
-			MemberDAO mDao = new MemberDAO();
+		case "update" :			// 수정버튼 클릭 시
+			mDao = new MemberDAO();
 			MemberDTO member = mDao.selectMod(Integer.parseInt(strId));
+			mDao.close();
 			request.setAttribute("member", member);
-			RequestDispatcher rd = request.getRequestDispatcher("update.jsp");
+			rd = request.getRequestDispatcher("update.jsp");
 	        rd.forward(request, response);
 	        mDao.close();
+	        break;
+		case "delete" :			// 삭제버튼 클릭 시
+			mDao = new MemberDAO();
+			mDao.deleteMember(Integer.parseInt(strId));
+			mDao.close();
+			String message = "id=" + strId + " 가 삭제되었습니다.";
+			String url = "loginmain.jsp";
+			request.setAttribute("message", message);
+			request.setAttribute("url", url);
+			rd = request.getRequestDispatcher("alertMsg.jsp");
+			rd.forward(request, response);
+			//response.sendRedirect("loginmain.jsp");		// 경고창이 안뜸
+			break;
 		default:
 		}
 	}

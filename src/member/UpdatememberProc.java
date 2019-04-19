@@ -1,6 +1,8 @@
 package member;
 
 import java.io.IOException;
+
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -30,7 +32,13 @@ public class UpdatememberProc extends HttpServlet {
 		MemberDTO member = new MemberDTO(id, "*", name, birthday, address);
 		mDao.updateMember(member);
 		mDao.close();
-		response.sendRedirect("loginmain.jsp");
+		
+		String message = "다음고 같이 수정하였습니다.\\n" + member.toString();
+		request.setAttribute("message", message);
+		request.setAttribute("url", "loginmain.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher("alertMsg.jsp");
+		rd.forward(request, response);
+		//response.sendRedirect("loginmain.jsp");
 	}
 
 }
