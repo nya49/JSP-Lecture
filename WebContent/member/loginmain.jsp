@@ -13,10 +13,12 @@
 	<title>메인 페이지</title>
 </head>
 <style>
-	th, td { text-align:center;}
+	th { text-align:center;}
 </style>
 <body>
 	<h3>회원 명단</h3>
+	<%=(String)session.getAttribute("memberName") %> 회원님 반갑습니다.
+	<a href="/jspbook/member/MemberProcServlet?action=logout">로그아웃</a>
 	<hr>
 	<table border="1" style="border-collapse:collapse;">
 		<tr>
@@ -41,5 +43,6 @@
 			}
 		%>
 	</table>
+	
 </body>
 </html>
