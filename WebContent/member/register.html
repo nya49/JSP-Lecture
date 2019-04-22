@@ -11,7 +11,8 @@
 <body>
 	<h3>회원가입</h3>
 	<hr>
-	<form name="Registerform" action=/jspbook/member/RegisterProcServlet method=post>
+	<!--  <form name="Registerform" action=/jspbook/member/RegisterProcServlet method=post> -->
+	<form name="Registerform" action="/jspbook/member/MemberProcServlet?action=register" method=post>
 			<label><span>PASSWORD : </span>
 				<input type="password" name="pass" size=10></label>
 			<label><span>이름 : </span>
