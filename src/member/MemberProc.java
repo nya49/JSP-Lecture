@@ -1,6 +1,7 @@
 package member;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -20,15 +21,27 @@ public class MemberProc extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		MemberDAO mDao = null;
+		MemberDTO member = null;
 		RequestDispatcher rd = null;
+		int id = 0;
+		String password = null;
+		String name = null;
+		String birthday = null;
+		String address = null;
+		String message = null;
+		request.setCharacterEncoding("UTF-8");
 		String action = request.getParameter("action");
-		String strId = request.getParameter("id");
-		System.out.println(action + ", " + strId);
+		
+		/*String strId = request.getParameter("id");
+		System.out.println(action + ", " + strId);*/
 		
 		switch(action) {
 		case "update" :			// 수정버튼 클릭 시
+			if(!request.getParameter("id").equals("")) {
+				id = Integer.parseInt(request.getParameter("id"));
+			}
 			mDao = new MemberDAO();
-			MemberDTO member = mDao.selectMod(Integer.parseInt(strId));
+			member = mDao.selectMod(id);
 			mDao.close();
 			request.setAttribute("member", member);
 			rd = request.getRequestDispatcher("update.jsp");
@@ -36,16 +49,84 @@ public class MemberProc extends HttpServlet {
 	        mDao.close();
 	        break;
 		case "delete" :			// 삭제버튼 클릭 시
+			if(!request.getParameter("id").equals("")) {
+				id = Integer.parseInt(request.getParameter("id"));
+			}
 			mDao = new MemberDAO();
-			mDao.deleteMember(Integer.parseInt(strId));
+			mDao.deleteMember(id);
 			mDao.close();
-			String message = "id=" + strId + " 가 삭제되었습니다.";
+			message = "id=" + id + " 가 삭제되었습니다.";
 			String url = "loginmain.jsp";
 			request.setAttribute("message", message);
 			request.setAttribute("url", url);
 			rd = request.getRequestDispatcher("alertMsg.jsp");
 			rd.forward(request, response);
 			//response.sendRedirect("loginmain.jsp");		// 경고창이 안뜸
+			break;
+		case "login" :
+			if(!request.getParameter("id").equals("")) {
+				id = Integer.parseInt(request.getParameter("id"));
+			}
+			password = request.getParameter("password");
+			mDao = new MemberDAO();
+			int result = mDao.verifyIdPAssword(id, password);
+			String errorMessage = null;
+			switch(result){
+			case MemberDAO.ID_PASSWORD_MATCH:
+				break;
+			case MemberDAO.ID_DOES_NOT_EXIST:
+				errorMessage = "ID 없음"; break;
+			case MemberDAO.PASSWORD_IS_WRONG :
+				errorMessage = "패스워드 틀림"; break;
+			case MemberDAO.DATABASE_ERROR :
+				errorMessage = "DB 오류";
+			}
+			mDao.close();
+			
+			System.out.println(errorMessage);
+			if(result == MemberDAO.ID_PASSWORD_MATCH){
+				response.sendRedirect("loginmain.jsp");
+			} else {
+				 String uri = "login.jsp?error=" + URLEncoder.encode(errorMessage, "UTF-8");
+			        response.sendRedirect(uri);
+			}
+			break;
+		case "register":		// 회원 등록할 때
+			password = request.getParameter("password");
+			name = request.getParameter("name");
+			birthday = request.getParameter("birthday");
+			address = request.getParameter("address");
+			member = new MemberDTO(password, name, birthday, address);
+			System.out.println(member.toString());
+			
+			mDao = new MemberDAO();
+			mDao.insertMember(member);
+			mDao.close();
+			
+			response.sendRedirect("loginmain.jsp");
+			break;
+			
+		case "execute":
+			if (!request.getParameter("id").equals("")) {
+				id = Integer.parseInt(request.getParameter("id"));
+			}
+			name = request.getParameter("name");
+			birthday = request.getParameter("birthday");
+			address = request.getParameter("address");
+			
+			member = new MemberDTO(id, "*", name, birthday, address);
+			System.out.println(member.toString());
+			
+			mDao = new MemberDAO();
+			mDao.updateMember(member);
+			mDao.close();
+			
+			message = "다음과 같이 수정하였습니다.\\n" + member.toString();
+			request.setAttribute("message", message);
+			request.setAttribute("url", "loginmain.jsp");
+			rd = request.getRequestDispatcher("alertMsg.jsp");
+	        rd.forward(request, response);
+			//response.sendRedirect("loginMain.jsp");
 			break;
 		default:
 		}
