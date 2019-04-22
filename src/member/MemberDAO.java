@@ -117,10 +117,8 @@ public class MemberDAO {
 	
 	// 4. 삭제
 	public void deleteMember(int id) {		
-		
         String query = "delete from member where id=?;";
         PreparedStatement pStmt = null;
-	       
         try { 
 	        pStmt = conn.prepareStatement(query);
 	        pStmt.setInt(1, id);
@@ -139,14 +137,11 @@ public class MemberDAO {
         }
     }
 
-	// 5. 검색
-	public MemberDTO selectOne(String name) {		
-        String query = "select * from member where name=?;";
+	public MemberDTO selectOne(String query) {		
         PreparedStatement pStmt = null;
         MemberDTO mem = new MemberDTO();
         try { 
 	        pStmt = conn.prepareStatement(query);
-	        pStmt.setString(1, name);
 	        ResultSet rs = pStmt.executeQuery();
            
 	        while(rs.next()){
@@ -169,66 +164,25 @@ public class MemberDAO {
         return mem;
     }
 	
-	// 변경할때 필요
-	public MemberDTO selectMod(int id) {		
-        String query = "select * from member where id=?;";
-        PreparedStatement pStmt = null;
-        MemberDTO mem = new MemberDTO();
-        try { 
-	        pStmt = conn.prepareStatement(query);
-	        pStmt.setInt(1, id);
-	        ResultSet rs = pStmt.executeQuery();
-           
-	        while(rs.next()){
-	        	mem.setId(rs.getInt(1));
-	        	mem.setPass(rs.getString(2));
-	        	mem.setName(rs.getString(3));
-	        	mem.setBirthday(rs.getString(4));
-	        	mem.setAddress(rs.getString(5));
-	        }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-	        try {
-	            if (pStmt != null && !pStmt.isClosed());
-	            pStmt.close();
-	        } catch (SQLException se) {
-	            se.printStackTrace();
-	        }
-        }
-        return mem;
+	public MemberDTO recentId() {
+    	String sql = "select * from member order by id desc limit 1;";
+    	MemberDTO mDto = selectOne(sql);
+    	return mDto;
     }
 	
-	
-	// 6. 로그인
-	public MemberDTO login(int id) {		
-        String query = "select * from member where id=?;";
-        PreparedStatement pStmt = null;
-        MemberDTO mem = new MemberDTO();
-        try { 
-	        pStmt = conn.prepareStatement(query);
-	        pStmt.setInt(1, id);
-	        ResultSet rs = pStmt.executeQuery();
-           
-	        while(rs.next()){
-	        	mem.setId(rs.getInt(1));
-	        	mem.setPass(rs.getString(2));
-	        }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-	        try {
-	            if (pStmt != null && !pStmt.isClosed());
-	            pStmt.close();
-	        } catch (SQLException se) {
-	            se.printStackTrace();
-	        }
-        }
-        return mem;
+	public MemberDTO searchById(int memberId) {
+    	String sql = "select * from member where id=" + memberId + ";";
+    	MemberDTO mDto = selectOne(sql);
+    	return mDto;
     }
-	
+    
+    public MemberDTO searchByName(String memberName) {
+    	String sql = "select * from member where name like '" + memberName + "';";
+    	MemberDTO mDto = selectOne(sql);
+    	return mDto;
+    }
    
-	public int verifyIdPAssword(int id, String password) {
+	public int verifyIdPassword(int id, String password) {
 		System.out.println("verifyIdPAssword() : " + id + ", " + password);
 		String query = "select hashed from member where id=?;";
 		PreparedStatement pStmt = null;
@@ -269,26 +223,27 @@ public class MemberDAO {
 	    	}
 	    }
 	    
-	    public void updatePassword(int id, String hashed) {
-	    	String query = "update member set hashed=? where id=?;";
-	    	PreparedStatement pStmt = null;
-	    	try {
-				pStmt = conn.prepareStatement(query);
-				pStmt.setString(1, hashed);
-				pStmt.setInt(2, id);
-				
-				pStmt.executeUpdate();
-			} catch (Exception e) {
-				e.printStackTrace();
-			} finally {
-				try {
-					if (pStmt != null && !pStmt.isClosed()) 
-						pStmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace();
-				}
-			}	
-	    }
+    public void updatePassword(int id, String hashed) {
+    	String query = "update member set hashed=? where id=?;";
+    	PreparedStatement pStmt = null;
+    	try {
+			pStmt = conn.prepareStatement(query);
+			pStmt.setString(1, hashed);
+			pStmt.setInt(2, id);
+			
+			pStmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (pStmt != null && !pStmt.isClosed()) 
+					pStmt.close();
+			} catch (SQLException se) {
+				se.printStackTrace();
+			}
+		}	
+    }
+	    
 	public void close() {
     	try {
 			if (conn != null && !conn.isClosed()) 

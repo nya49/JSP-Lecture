@@ -36,7 +36,7 @@ public class LoginProc extends HttpServlet {
 		String password = request.getParameter("password");
 		
 		MemberDAO mDao = new MemberDAO();
-		int result = mDao.verifyIdPAssword(id, password);
+		int result = mDao.verifyIdPassword(id, password);
 		String errorMessage = null;
 		switch(result){
 		case MemberDAO.ID_PASSWORD_MATCH:

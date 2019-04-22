@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 @WebServlet("/member/MemberProcServlet")
 public class MemberProc extends HttpServlet {
@@ -31,17 +32,25 @@ public class MemberProc extends HttpServlet {
 		String message = null;
 		request.setCharacterEncoding("UTF-8");
 		String action = request.getParameter("action");
-		
-		/*String strId = request.getParameter("id");
-		System.out.println(action + ", " + strId);*/
+		HttpSession session = request.getSession();
 		
 		switch(action) {
 		case "update" :			// 수정버튼 클릭 시
 			if(!request.getParameter("id").equals("")) {
 				id = Integer.parseInt(request.getParameter("id"));
 			}
+			if(id != (Integer)session.getAttribute("memberId")) {
+				message = "id=" + id + "에 대한 수정권한이 없습니다.";
+				String url = "loginmain.jsp";
+				request.setAttribute("message", message);
+				request.setAttribute("url", url);
+				rd = request.getRequestDispatcher("alertMsg.jsp");
+				rd.forward(request, response);
+				response.sendRedirect("loginmain.jsp");
+				break;
+			}
 			mDao = new MemberDAO();
-			member = mDao.selectMod(id);
+			member = mDao.searchById(id);
 			mDao.close();
 			request.setAttribute("member", member);
 			rd = request.getRequestDispatcher("update.jsp");
@@ -52,6 +61,16 @@ public class MemberProc extends HttpServlet {
 			if(!request.getParameter("id").equals("")) {
 				id = Integer.parseInt(request.getParameter("id"));
 			}
+			if(id != (Integer)session.getAttribute("memberId")) {
+				message = "id=" + id + "에 대한 삭제권한이 없습니다.";
+				String url = "loginmain.jsp";
+				request.setAttribute("message", message);
+				request.setAttribute("url", url);
+				rd = request.getRequestDispatcher("alertMsg.jsp");
+				rd.forward(request, response);
+				response.sendRedirect("loginmain.jsp");
+				break;
+			}
 			mDao = new MemberDAO();
 			mDao.deleteMember(id);
 			mDao.close();
@@ -61,7 +80,6 @@ public class MemberProc extends HttpServlet {
 			request.setAttribute("url", url);
 			rd = request.getRequestDispatcher("alertMsg.jsp");
 			rd.forward(request, response);
-			//response.sendRedirect("loginmain.jsp");		// 경고창이 안뜸
 			break;
 		case "login" :
 			if(!request.getParameter("id").equals("")) {
@@ -69,7 +87,7 @@ public class MemberProc extends HttpServlet {
 			}
 			password = request.getParameter("password");
 			mDao = new MemberDAO();
-			int result = mDao.verifyIdPAssword(id, password);
+			int result = mDao.verifyIdPassword(id, password);
 			String errorMessage = null;
 			switch(result){
 			case MemberDAO.ID_PASSWORD_MATCH:
@@ -81,16 +99,26 @@ public class MemberProc extends HttpServlet {
 			case MemberDAO.DATABASE_ERROR :
 				errorMessage = "DB 오류";
 			}
-			mDao.close();
 			
 			System.out.println(errorMessage);
 			if(result == MemberDAO.ID_PASSWORD_MATCH){
+				member = mDao.searchById(id);
+				session.setAttribute("memberId", id);
+				session.setAttribute("memberName", member.getName());
 				response.sendRedirect("loginmain.jsp");
 			} else {
 				 String uri = "login.jsp?error=" + URLEncoder.encode(errorMessage, "UTF-8");
 			        response.sendRedirect(uri);
 			}
+			mDao.close();
 			break;
+			
+		case "logout":
+			session.removeAttribute("memberId");
+			session.removeAttribute("memberName");
+			response.sendRedirect("login.jsp");
+			break;
+			
 		case "register":		// 회원 등록할 때
 			password = request.getParameter("password");
 			name = request.getParameter("name");
@@ -101,9 +129,17 @@ public class MemberProc extends HttpServlet {
 			
 			mDao = new MemberDAO();
 			mDao.insertMember(member);
-			mDao.close();
+			member = mDao.recentId();
+			session.setAttribute("memberId", member.getId());
+			session.setAttribute("memberName", name);
 			
-			response.sendRedirect("loginmain.jsp");
+			message = "귀하의 아이디는 " + member.getId() + " 입니다.";
+			url = "loginmain.jsp";
+			request.setAttribute("message", message);
+			request.setAttribute("url", url);
+			rd = request.getRequestDispatcher("alertMsg.jsp");
+			rd.forward(request, response);
+			mDao.close();
 			break;
 			
 		case "execute":
