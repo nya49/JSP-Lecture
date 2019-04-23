@@ -30,23 +30,23 @@ public class MemberProc extends HttpServlet {
 		String birthday = null;
 		String address = null;
 		String message = null;
+		String url = null;
 		request.setCharacterEncoding("UTF-8");
 		String action = request.getParameter("action");
 		HttpSession session = request.getSession();
 		
 		switch(action) {
-		case "update" :			// 수정버튼 클릭 시
-			if(!request.getParameter("id").equals("")) {
+		case "update":		// 수정 버튼 클릭 시
+			if (!request.getParameter("id").equals("")) {
 				id = Integer.parseInt(request.getParameter("id"));
 			}
-			if(id != (Integer)session.getAttribute("memberId")) {
-				message = "id=" + id + "에 대한 수정권한이 없습니다.";
-				String url = "loginmain.jsp";
+			if (id != (Integer)session.getAttribute("memberId")) {
+				message = "id = " + id + " 에 대한 수정 권한이 없습니다.";
+				url = "loginmain.jsp";
 				request.setAttribute("message", message);
 				request.setAttribute("url", url);
 				rd = request.getRequestDispatcher("alertMsg.jsp");
 				rd.forward(request, response);
-				response.sendRedirect("loginmain.jsp");
 				break;
 			}
 			mDao = new MemberDAO();
@@ -55,7 +55,6 @@ public class MemberProc extends HttpServlet {
 			request.setAttribute("member", member);
 			rd = request.getRequestDispatcher("update.jsp");
 	        rd.forward(request, response);
-	        mDao.close();
 	        break;
 		case "delete" :			// 삭제버튼 클릭 시
 			if(!request.getParameter("id").equals("")) {
@@ -63,7 +62,7 @@ public class MemberProc extends HttpServlet {
 			}
 			if(id != (Integer)session.getAttribute("memberId")) {
 				message = "id=" + id + "에 대한 삭제권한이 없습니다.";
-				String url = "loginmain.jsp";
+				url = "loginmain.jsp";
 				request.setAttribute("message", message);
 				request.setAttribute("url", url);
 				rd = request.getRequestDispatcher("alertMsg.jsp");
@@ -75,7 +74,7 @@ public class MemberProc extends HttpServlet {
 			mDao.deleteMember(id);
 			mDao.close();
 			message = "id=" + id + " 가 삭제되었습니다.";
-			String url = "loginmain.jsp";
+			url = "loginmain.jsp";
 			request.setAttribute("message", message);
 			request.setAttribute("url", url);
 			rd = request.getRequestDispatcher("alertMsg.jsp");
@@ -99,7 +98,7 @@ public class MemberProc extends HttpServlet {
 			case MemberDAO.DATABASE_ERROR :
 				errorMessage = "DB 오류";
 			}
-			
+			System.out.println("id=" + id);
 			System.out.println(errorMessage);
 			if(result == MemberDAO.ID_PASSWORD_MATCH){
 				member = mDao.searchById(id);
@@ -120,7 +119,7 @@ public class MemberProc extends HttpServlet {
 			break;
 			
 		case "register":		// 회원 등록할 때
-			password = request.getParameter("password");
+			password = request.getParameter("pass");
 			name = request.getParameter("name");
 			birthday = request.getParameter("birthday");
 			address = request.getParameter("address");

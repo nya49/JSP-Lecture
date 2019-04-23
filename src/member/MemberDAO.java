@@ -29,31 +29,29 @@ public class MemberDAO {
 	}	//MemberDAO 
 	
 	// 1. 가입
-	public void insertMember(MemberDTO mem) {		
-        String query = "insert into member (pass, name, birthday, address, hashed) values (?, ?, ?, ?, ?);";
-        PreparedStatement pStmt = null;
-	       
-        try { 
-	        String hashedPassword = BCrypt.hashpw(mem.getPass(), BCrypt.gensalt());
-	        pStmt = conn.prepareStatement(query);
-	        pStmt.setString(1, "*");
-	        pStmt.setString(2, mem.getName());
-	        pStmt.setString(3, mem.getBirthday());
-	        pStmt.setString(4, mem.getAddress());
-	        pStmt.setString(5, hashedPassword);
-	        
-	        pStmt.executeUpdate();
-           
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-	        try {
-	            if (pStmt != null && !pStmt.isClosed());
-	            pStmt.close();
-	        } catch (SQLException se) {
-	            se.printStackTrace();
-	        }
-        }
+	public void insertMember(MemberDTO member) {
+    	String query = "insert into member(pass, name, birthday, address, hashed) values (?, ?, ?, ?, ?);";
+    	PreparedStatement pStmt = null;
+    	try {
+    		String hashedPassword = BCrypt.hashpw(member.getPass(), BCrypt.gensalt());
+			pStmt = conn.prepareStatement(query);
+			pStmt.setString(1, "*");
+			pStmt.setString(2, member.getName());
+			pStmt.setString(3, member.getBirthday());
+			pStmt.setString(4, member.getAddress());
+			pStmt.setString(5, hashedPassword);
+			
+			pStmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (pStmt != null && !pStmt.isClosed()) 
+					pStmt.close();
+			} catch (SQLException se) {
+				se.printStackTrace();
+			}
+		}	
     }
 	
 	// 2. 조회
@@ -182,8 +180,8 @@ public class MemberDAO {
     	return mDto;
     }
    
-	public int verifyIdPassword(int id, String password) {
-		System.out.println("verifyIdPAssword() : " + id + ", " + password);
+	public int verifyIdPassword(int id, String pass) {
+		System.out.println("verifyIdPAssword() : " + id + ", " + pass);
 		String query = "select hashed from member where id=?;";
 		PreparedStatement pStmt = null;
 		ResultSet rs = null;
@@ -194,7 +192,7 @@ public class MemberDAO {
 	        rs = pStmt.executeQuery();
 	        while(rs.next()) {
 	        	hashedPassword = rs.getString(1);
-	        	if(BCrypt.checkpw(password, hashedPassword))
+	        	if(BCrypt.checkpw(pass, hashedPassword))
 	        		return ID_PASSWORD_MATCH;
 	        	else 
 	        		return PASSWORD_IS_WRONG;
