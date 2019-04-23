@@ -18,6 +18,8 @@
 <body>
 	<h3>회원 명단</h3>
 	<%=(String)session.getAttribute("memberName") %> 회원님 반갑습니다.
+	<a href="bbs_list.jsp">게시판</a>&nbsp;&nbsp;&nbsp;
+	<a href="twitter_list.jsp">트윗</a>&nbsp;&nbsp;&nbsp;
 	<a href="/jspbook/member/MemberProcServlet?action=logout">로그아웃</a>
 	<hr>
 	<table border="1" style="border-collapse:collapse;">
