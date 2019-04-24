@@ -6,32 +6,53 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>게시글 수정</title>
 	<style>
-		label { display : block; padding-bottom:20px;}
-		span { float:left;  width : 100px; height:20px;}
+		table { border-collapse:collapse; width:550px;}
+		th { width : 90px; text-align:center;  padding : 5px 5px 5px 5px; background-color:#FAED7D; }
+		td { padding: 5px 5px 5px 5px;  width:500px;}
+		.textbox {position: relative; width: 200px; margin: 15px}
 	</style>
 </head>
 <body>
 	<%
 		BbsDTO bDto = (BbsDTO)request.getAttribute("memberID") ;
 	%>
+	<center>
 	<h3>게시글 수정</h3>
+	<%=(String)session.getAttribute("memberName") %> 회원님 반갑습니다.<br>
+		<a href="bbs_list.jsp">게시글 목록</a>&nbsp;&nbsp;
+		<a href="bbsWrite.jsp">글쓰기</a>&nbsp;&nbsp;
+		<a href="twitter_list.jsp">트윗</a>&nbsp;&nbsp;
+		<a href="/jspbook/member/MemberProcServlet?action=logout">로그아웃</a>
 	<hr>
 	<form name="Executeform" action="/jspbook/member/BbsServlet?action=execute" method=post>
 		<input type="hidden" id="id" name="id" value="<%=bDto.getId() %>">
-		<label><span>아이디 : </span>
-				<%=bDto.getId() %></label>
-			<%-- <label><span>이름 : </span>
-				<%=mem.getName() %></label> --%>
-			<label><span>제목 : </span>
-				<input type="text" name="title" value="<%=bDto.getTitle() %>" size=20></label>
-			<label><span>날짜 : </span>
-				<%=bDto.getDate() %></label>
-			<label><span>내용 : </span>
-				<input type="text" name="content" value="<%=bDto.getContent() %>" size=50></label>	
-			<label>
-				<input type="submit" value="수정" name="B1">&nbsp;&nbsp;
-				<input type="reset" value="재작성" name="B2">
-			</label>
+		<table border=1>
+			<tr>
+				<th>글번호</th>
+				<td><%=bDto.getId() %></td>
+			</tr>
+			<tr>
+				<th>제목</th>
+				<td><input type="text" name="title" value="<%=bDto.getTitle() %>" size=60></td>
+			</tr>
+			<tr>
+				<th>날짜</th>
+				<td><%=bDto.getDate().substring(0,16) %></td>
+			</tr>
+			<tr>
+				<th>내용</th>
+				<td>
+					<textarea rows="10" cols="60" name="content"><%=bDto.getContent().replaceAll("<br>","\r\n") %></textarea>
+				</td>
+			</tr>
+			<tr>
+				<td colspan=2 align=center>
+					<input type="submit" value="수정" name="B1">&nbsp;&nbsp;
+					<input type="reset" value="재작성" name="B2">
+				</td>
+			</tr>
+		</table>
 	</form>
+	</center>
 </body>
 </html>

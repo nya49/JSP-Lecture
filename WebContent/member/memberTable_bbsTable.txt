@@ -1,0 +1,32 @@
+create table if not exists bbs (
+    			id int unsigned not null auto_increment,
+    			memberId int unsigned not null,
+    			title varchar(50) not null,
+    			date datetime not null default current_timestamp,
+    			content varchar(400),
+    			primary key(id))
+				default charset=utf8;
+
+
+create table if not exists member (
+    			id int(4) unsigned not null auto_increment,
+    			pass varchar(10) not null,
+    			name varchar(10) not null,
+    			birthday date not null,
+    			address varchar(50),
+    			hashed varchar(400),
+    			primary key(id))
+			
+			auto_increment=10001 default charset=utf8;
+
+
+// 수정전 오류남.
+create table if not exists bbs (
+    			id int unsigned not null auto_increment,
+    			memberId int unsigned not null,
+    			title varchar(50) not null,
+    			date datetime not null default current_timestamp,
+    			content varchar(400),
+    			primary key(id),
+			foreign key(memberId) references member(id))
+				default charset=utf8;
