@@ -26,6 +26,7 @@ public class BbsServlet extends HttpServlet {
 		int id = 0;
 		BbsDAO bDao = null;
 		BbsDTO bDto = null;
+		BbsMember bMem = null;
 		String message = null;
 		String title = null;
 		String date = null;
@@ -96,7 +97,9 @@ public class BbsServlet extends HttpServlet {
 			}
 			bDao = new BbsDAO();
 			bDto = bDao.searchById(id);
+			bMem = bDao.ViewData(id);
 			bDao.close();
+			request.setAttribute("bbsMember", bMem);
 			request.setAttribute("memberID", bDto);
 			rd = request.getRequestDispatcher("bbsView.jsp");
 	        rd.forward(request, response);
@@ -108,7 +111,6 @@ public class BbsServlet extends HttpServlet {
 			}
 			bDao = new BbsDAO();
 			bDto = bDao.searchById(id);
-			bDao.close();
 			if(memberId != bDto.getMemberid()) {
 				message = "글번호" + id + "에 대한 수정권한이 없습니다.";
 				url = "BbsServlet?action=list&page=1";
@@ -116,8 +118,11 @@ public class BbsServlet extends HttpServlet {
 				request.setAttribute("url", url);
 				rd = request.getRequestDispatcher("alertMsg.jsp");
 				rd.forward(request, response);
+				bDao.close();
 				break;
 			}
+			
+			bDto.setContent(bDto.getContent().replaceAll("<br>", "\r\n"));
 			request.setAttribute("memberID", bDto);
 			rd = request.getRequestDispatcher("bbsUpdate.jsp");
 	        rd.forward(request, response);
@@ -174,7 +179,6 @@ public class BbsServlet extends HttpServlet {
 			break;
 		default:
 		}
-		//
+		
 	}
-
 }

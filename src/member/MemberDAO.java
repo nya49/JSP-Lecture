@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import org.mindrot.jbcrypt.BCrypt;
 
 
 public class MemberDAO {
@@ -242,6 +243,30 @@ public class MemberDAO {
 		}	
     }
 	    
+    public int getCount() {
+		String query = "select count(*) from member;";
+		PreparedStatement pStmt = null;
+		int count = 0;
+		try {
+			pStmt = conn.prepareStatement(query);
+			ResultSet rs = pStmt.executeQuery();
+			while (rs.next()) {				
+				count = rs.getInt(1);
+			}
+			rs.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (pStmt != null && !pStmt.isClosed()) 
+					pStmt.close();
+			} catch (SQLException se) {
+				se.printStackTrace();
+			}
+		}
+		return count;
+	}
+    
 	public void close() {
     	try {
 			if (conn != null && !conn.isClosed()) 
