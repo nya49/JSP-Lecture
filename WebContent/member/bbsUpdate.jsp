@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" import="member.*" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -13,36 +14,33 @@
 	</style>
 </head>
 <body>
-	<%
-		BbsDTO bDto = (BbsDTO)request.getAttribute("memberID") ;
-	%>
 	<center>
 	<h3>게시글 수정</h3>
-	<%=(String)session.getAttribute("memberName") %> 회원님 반갑습니다.<br>
-		<a href="bbs_list.jsp">게시글 목록</a>&nbsp;&nbsp;
+	${memberName} 회원님 반갑습니다.<br>
+		<a href="BbsServlet?action=list&page=1">게시글 목록</a>&nbsp;&nbsp;
 		<a href="bbsWrite.jsp">글쓰기</a>&nbsp;&nbsp;
 		<a href="twitter_list.jsp">트윗</a>&nbsp;&nbsp;
 		<a href="/jspbook/member/MemberProcServlet?action=logout">로그아웃</a>
 	<hr>
-	<form name="Executeform" action="/jspbook/member/BbsServlet?action=execute" method=post>
-		<input type="hidden" id="id" name="id" value="<%=bDto.getId() %>">
+	<c:set var="bm" value="${requestScope.memberID }" />
+	<form name="Executeform" action="/jspbook/member/BbsServlet?action=execute&id=${bm.id}" method=post>
 		<table border=1>
 			<tr>
 				<th>글번호</th>
-				<td><%=bDto.getId() %></td>
+				<td>${bm.id }</td>
 			</tr>
 			<tr>
 				<th>제목</th>
-				<td><input type="text" name="title" value="<%=bDto.getTitle() %>" size=60></td>
+				<td><input type="text" name="title" value="${bm.title }" size=60></td>
 			</tr>
 			<tr>
 				<th>날짜</th>
-				<td><%=bDto.getDate().substring(0,16) %></td>
+				<td>${bm.date }</td>
 			</tr>
 			<tr>
 				<th>내용</th>
 				<td>
-					<textarea rows="10" cols="60" name="content"><%=bDto.getContent().replaceAll("<br>","\r\n") %></textarea>
+					<textarea rows="10" cols="60" name="content">${bm.content}</textarea>
 				</td>
 			</tr>
 			<tr>

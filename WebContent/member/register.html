@@ -4,27 +4,41 @@
 	<meta charset="UTF-8">
 	<title>회원 가입</title>
 	<style>
-		label { display : block; padding-bottom:20px;}
-		span { float:left;  width : 100px; height:20px;}
+		table { border-collapse:collapse; width:550px;}
+		th { width : 90px; text-align:center;  padding : 5px 5px 5px 5px; background-color:#FAED7D; }
+		td { padding: 5px 5px 5px 5px;  width:500px;}
 	</style>
 </head>
 <body>
+	<div align=center>
 	<h3>회원가입</h3>
+	<a href="login.jsp">로그인</a>
 	<hr>
-	<!--  <form name="Registerform" action=/jspbook/member/RegisterProcServlet method=post> -->
 	<form name="Registerform" action="/jspbook/member/MemberProcServlet?action=register" method=post>
-			<label><span>PASSWORD : </span>
-				<input type="password" name="pass" size=10></label>
-			<label><span>이름 : </span>
-				<input type="text" name="name" size=10></label>
-			<label><span>생년월일 : </span>
-				<input type="text" name="birthday" size=10></label>
-			<label><span>주소 : </span>
-				<input type="text" name="address" size=10></label>
+		<table border=1>
+			<tr>
+				<th>PASSWORD</th>
+				<td><input type="password" name="pass" size=60></td>
+			</tr>
+			<tr>
+				<th>이름</th>
+				<td><input type="text" name="name" size=60></td>
+			</tr>
+			<tr>
+				<th>생년월일</th>
+				<td><input type="text" name="birthday" size=60></td>
+			</tr>
+			<tr>
+				<th>주소</th>
+				<td><input type="text" name="address" size=60></td>
+			</tr>
+		</table>
+		<br>
 			<label>
 				<input type="submit" value="회원가입" name="B1">&nbsp;&nbsp;
 				<input type="reset" value="재작성" name="B2">
 			</label>
 	</form>
+	</div>
 </body>
 </html>

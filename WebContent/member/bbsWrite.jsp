@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" import="member.*"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -15,8 +16,8 @@
 <body>
 	<center>
 	<h3>게시글 작성</h3>
-	<%=(String)session.getAttribute("memberName") %> 회원님 반갑습니다.<br>
-		<a href="bbs_list.jsp">게시글 목록</a>&nbsp;&nbsp;
+	${memberName} 회원님 반갑습니다.<br>
+		<a href="BbsServlet?action=list&page=1">게시글 목록</a>&nbsp;&nbsp;
 		<a href="bbsWrite.jsp">글쓰기</a>&nbsp;&nbsp;
 		<a href="twitter_list.jsp">트윗</a>&nbsp;&nbsp;
 		<a href="/jspbook/member/MemberProcServlet?action=logout">로그아웃</a>

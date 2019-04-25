@@ -7,13 +7,10 @@
 <title>Alert message</title>
 </head>
 <body>
-<%
-	String message = (String) request.getAttribute("message");
-	String url = (String)  request.getAttribute("url");
-%>
+
 <script type="text/javascript">
-	var message = "<%=message%>";
-	var returnUrl = "<%=url%>";
+	var message = "${requestScope.message}";
+	var returnUrl = "${requestScope.url}";
 	alert(message);
 	document.location.href = returnUrl; 
 </script>
