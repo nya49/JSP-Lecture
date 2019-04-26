@@ -1,5 +1,7 @@
 package member;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -8,8 +10,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 public class BbsDAO {
+	private static final Logger LOG = LoggerFactory.getLogger(BbsDAO.class);
 
 	private Connection conn;
 	private static final String USERNAME = "javauser";
@@ -281,6 +287,33 @@ public class BbsDAO {
 		return bmDto;
 	}
 	
+	
+	
+	public String prepareDownload() {
+    	LOG.trace("");
+		List<BbsMember> bmem = selectJoinAll(0);
+		StringBuffer sb = new StringBuffer();
+		
+		try {
+			FileWriter fw = new FileWriter("D:/workspace/Temp/BbsList.csv");
+			String head = "글번호,제목,글쓴이,날짜\r\n";
+			sb.append(head);
+			fw.write(head);
+			LOG.debug(head);
+			for (BbsMember mem : bmem) {
+				String line = mem.getId() + "," + mem.getTitle() + "," + mem.getName() + ","
+						+ mem.getDate() + "\r\n";
+				sb.append(line);
+				fw.write(line);
+				LOG.debug(line);
+			}
+			fw.flush();
+			fw.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return sb.toString();
+	}
 	
 	public void close() {
 		try {

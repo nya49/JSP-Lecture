@@ -12,9 +12,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @WebServlet("/member/BbsServlet")
 public class BbsServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private static final Logger LOG = LoggerFactory.getLogger(BbsServlet.class);
+
        
     public BbsServlet() {
     }
@@ -23,6 +28,7 @@ public class BbsServlet extends HttpServlet {
 		doPost(request, response);
 	}
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		LOG.trace("");
 		int id = 0;
 		BbsDAO bDao = null;
 		BbsDTO bDto = null;

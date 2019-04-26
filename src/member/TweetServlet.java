@@ -14,10 +14,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @WebServlet("/member/TweetServlet")
 public class TweetServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+    private static final Logger LOG = LoggerFactory.getLogger(TweetServlet.class);
+
     public TweetServlet() {
         super();
         // TODO Auto-generated constructor stub
@@ -28,6 +32,7 @@ public class TweetServlet extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		LOG.trace("");
 		request.setCharacterEncoding("UTF-8");
 		String msg = request.getParameter("msg");
 		HttpSession session = request.getSession();

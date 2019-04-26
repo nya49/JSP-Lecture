@@ -1,5 +1,7 @@
 package member;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -8,9 +10,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import org.mindrot.jbcrypt.BCrypt;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 public class MemberDAO {
+	private static final Logger LOG = LoggerFactory.getLogger(MemberDAO.class);
+	
 	public static final int ID_PASSWORD_MATCH = 1;
 	public static final int ID_DOES_NOT_EXIST = 2;
 	public static final int PASSWORD_IS_WRONG = 3;
@@ -265,6 +271,71 @@ public class MemberDAO {
 			}
 		}
 		return count;
+	}
+    
+    public List<MemberDTO> selectAll(int page) {
+    	int offset = 0;
+		String query = null;
+		if (page == 0) {	// page가 0이면 모든 데이터를 보냄
+			query = "select * from member;";
+		} else {			// page가 0이 아니면 해당 페이지 데이터만 보냄
+			query = "select * from member limit ?, 10;";
+			offset = (page - 1) * 10;
+		}
+    	PreparedStatement pStmt = null;
+    	List<MemberDTO> memberList = new ArrayList<MemberDTO>();
+    	try {
+			pStmt = conn.prepareStatement(query);
+			if (page != 0)
+				pStmt.setInt(1, offset);
+			ResultSet rs = pStmt.executeQuery();
+			
+			while (rs.next()) {
+				MemberDTO member = new MemberDTO();
+				member.setId(rs.getInt(1));
+				member.setPass(rs.getString(2));
+				member.setName(rs.getString(3));
+				member.setBirthday(rs.getString(4));
+				member.setAddress(rs.getString(5));
+				memberList.add(member);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (pStmt != null && !pStmt.isClosed()) 
+					pStmt.close();
+			} catch (SQLException se) {
+				se.printStackTrace();
+			}
+		}
+    	return memberList;
+    }
+    
+    public String prepareDownload() {
+    	LOG.trace("");
+		List<MemberDTO> mList = selectAll(0);
+		StringBuffer sb = new StringBuffer();
+		
+		try {
+			FileWriter fw = new FileWriter("D:/workspace/Temp/MemberList.csv");
+			String head = "아이디,이름,생년월일,주소\r\n";
+			sb.append(head);
+			fw.write(head);
+			LOG.debug(head);
+			for (MemberDTO mDto : mList) {
+				String line = mDto.getId() + "," + mDto.getName() + "," + mDto.getBirthday() + ","
+						+ mDto.getAddress() + "\r\n";
+				sb.append(line);
+				fw.write(line);
+				LOG.debug(line);
+			}
+			fw.flush();
+			fw.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return sb.toString();
 	}
     
 	public void close() {

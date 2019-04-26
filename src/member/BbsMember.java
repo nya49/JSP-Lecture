@@ -66,6 +66,5 @@ public class BbsMember {
 		return "BbsMember [id=" + id + ", name=" + name + ", title=" + title + ", date=" + date + ", content=" + content
 				+ "]";
 	}
-	
-	
+
 }
