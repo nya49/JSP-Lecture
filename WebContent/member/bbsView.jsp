@@ -5,12 +5,8 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<link href="css/update.css" rel="stylesheet">
 	<title>게시글</title>
-	<style>
-		table { border-collapse:collapse; width:550px;}
-		th { width : 90px; text-align:center;  padding : 5px 5px 5px 5px; background-color:#FAED7D; }
-		td { padding: 5px 5px 5px 5px;  width:500px;}
-	</style>
 </head>
 <body>
 	<center>
@@ -21,11 +17,12 @@
 		<a href="twitter_list.jsp">트윗</a>&nbsp;&nbsp;
 		<a href="/jspbook/member/MemberProcServlet?action=logout">로그아웃</a>
 	<hr>
+	<br>
 		<c:set var="bm" value="${requestScope.bbsMember }" />
-		<table border=1>
+		<table>
 			<tr>
 				<th>글번호</th>
-				<td>${bm.id }</td>
+				<td width=500>${bm.id }</td>
 			</tr>
 			<tr>
 				<th>제목</th>
@@ -43,13 +40,9 @@
 				<th>내용</th>
 				<td>${bm.content }</td>
 			</tr>
-			<tr>
-				<td align=center colspan=2>
-					<button onclick="location.href='BbsServlet?action=update&id=${bm.id}'">수정</button>&nbsp;
-					<button onclick="location.href='BbsServlet?action=delete&id=${bm.id}'">삭제</button>&nbsp;
-				</td>
-			</tr>
 		</table>
+		<button onclick="location.href='BbsServlet?action=update&id=${bm.id}'">수정</button>&nbsp;
+		<button onclick="location.href='BbsServlet?action=delete&id=${bm.id}'">삭제</button>
 	</center>
 </body>
 </html>

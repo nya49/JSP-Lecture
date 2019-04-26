@@ -1,0 +1,39 @@
+@charset "UTF-8";
+body { margin:0 auto;}
+#head { text-align:center; }
+table { border-collapse:collapse; margin-top:10px;  margin:0 auto;}
+th { 
+	text-align:center; 
+	background-color:#F6F6F6;
+	border-top:2px solid #cecece; 
+	border-bottom:1px solid #cecece; height:30px;
+	height:30px;
+}
+td { 
+	padding: 5px 5px 5px 5px;
+	border-bottom:1px solid #cecece; 
+	font-size:10pt;
+	height:20px;
+}
+a { text-decoration:none;}
+a:hover { text-decoration:underline;}
+
+button {
+	background-color: #ffffff; 
+	border: 1px solid #cecece; 
+	width:50px; 
+	padding-top:10px; 
+	padding-bottom :10px; 
+	font-family:"굴림"; 
+}
+
+input[type=button] {
+	margin-top:10px;
+	margin-bottom:20px;
+	background-color: #ffffff; 
+	border: 1px solid #cecece; 
+	width:80px; 
+	padding-top:10px; 
+	padding-bottom :10px; 
+	font-family:"굴림"; 
+}

@@ -2,27 +2,14 @@
 <html>
 <head>
 	<meta charset="UTF-8">
+	<link href="css/login.css" rel="stylesheet">
 	<title>회원 가입</title>
-	<style>
-		table { border-collapse:collapse;}
-		th { text-align:left;  padding : 5px 5px 5px 5px;}
-		td { padding: 5px 5px 5px 5px; border:1px solid #BDBDBD; background-color:#ffffff; 
-			padding-top:10px; padding-bottom:10px;
-		}
-		input[type=submit]{ background-color:#47C83E; border: 0 solid #47C83E; 
-			color:#ffffff; width:400px; padding-top:10px; padding-bottom :10px; font-size:1.5em;
-		 }
-		 input[type=text],[type=password]{
-		 	background-color:transparent;border:0 solid black; height:20px;
-		 }
-		/* style="" */
-	</style>
 </head>
-<body bgcolor=#F6F6F6>
+<body>
 	<div align=center>
 	<h3>회원가입</h3>
 	<a href="login.jsp">로그인</a>
-	<hr>
+	<br>
 	<form name="Registerform" action="/jspbook/member/MemberProcServlet?action=register" method=post>
 		<table>
 			<tr>
@@ -52,10 +39,7 @@
 			</tr>
 		</table>
 		<br>
-			<label>
-				<input type="submit" value="가입하기" name="B1">
-				<!--  <input type="reset" value="재작성" name="B2">-->
-			</label>
+			<input type="submit" value="가입하기" name="B1">
 	</form>
 	</div>
 </body>

@@ -21,14 +21,13 @@
 		<hr>
 		<div align=left>
 			<ul>
-				<%
-					ArrayList<String> msgs = (ArrayList<String>)application.getAttribute("msgs");
-					if(msgs != null){
-						for(String msg : msgs){
-							out.println("<li>"+msg+"</li>");
-						}
-					}
-				%>
+				<c:set var="msgs" value="${applicationScope.msgs}"/>
+				<!-- msgs가 null 이 아닌 경우에만 목록 출력 -->
+				<c:if test="${not empty msgs}">
+					<c:forEach var="msg" items="${msgs}">
+						<li>${msg}</li>
+					</c:forEach>
+				</c:if>
 			</ul>
 		</div>
 	</div>

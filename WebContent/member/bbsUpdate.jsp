@@ -5,13 +5,8 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<link href="css/update.css" rel="stylesheet">
 	<title>게시글 수정</title>
-	<style>
-		table { border-collapse:collapse; width:550px;}
-		th { width : 90px; text-align:center;  padding : 5px 5px 5px 5px; background-color:#FAED7D; }
-		td { padding: 5px 5px 5px 5px;  width:500px;}
-		.textbox {position: relative; width: 200px; margin: 15px}
-	</style>
 </head>
 <body>
 	<center>
@@ -24,7 +19,7 @@
 	<hr>
 	<c:set var="bm" value="${requestScope.memberID }" />
 	<form name="Executeform" action="/jspbook/member/BbsServlet?action=execute&id=${bm.id}" method=post>
-		<table border=1>
+		<table>
 			<tr>
 				<th>글번호</th>
 				<td>${bm.id }</td>
@@ -43,13 +38,9 @@
 					<textarea rows="10" cols="60" name="content">${bm.content}</textarea>
 				</td>
 			</tr>
-			<tr>
-				<td colspan=2 align=center>
-					<input type="submit" value="수정" name="B1">&nbsp;&nbsp;
-					<input type="reset" value="재작성" name="B2">
-				</td>
-			</tr>
 		</table>
+		<input type="submit" value="수정" name="B1">&nbsp;&nbsp;
+		<input type="reset" value="재작성" name="B2">
 	</form>
 	</center>
 </body>

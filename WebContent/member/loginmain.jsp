@@ -6,13 +6,9 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<link href="css/list.css" rel="stylesheet">
 	<title>메인 페이지</title>
 </head>
-<style>
-	table { border-collapse:collapse;}
-	th { text-align:center; background-color:#FAED7D; }
-	td { padding: 5px 5px 5px 5px;}
-</style>
 <body>
 	<div align="center">
 	<h3>회원 명단</h3>
@@ -21,7 +17,8 @@
 	<a href="twitter_list.jsp">트윗</a>&nbsp;&nbsp;
 	<a href="/jspbook/member/MemberProcServlet?action=logout">로그아웃</a>
 	<hr>
-	<table border="1" >
+	<div style="text-align:right; width:660px;"><a href="fileServlet?action=member">회원 목록 다운로드</a></div>
+	<table>
 		<tr>
 			<th width=60>아이디</th><th width=70>이름</th><th width=100>생년월일</th><th width=300>주소</th><th width=130>액션</th>
 		</tr>
@@ -39,10 +36,12 @@
 		</tr>
 			</c:forEach>
 	</table>
+	
 	<c:set var="pageList" value="${requestScope.pageList}"/>
 		<c:forEach var="pageNo" items="${pageList}">
 			${pageNo}
 		</c:forEach>
+		
 	</div>
 </body>
 </html>
