@@ -23,7 +23,7 @@ public class MemberDAO {
 	public static final int DATABASE_ERROR = -1;
 	private Connection conn;
 	private static final String USERNAME = "javauser";
-	private static final String USERPASSWORD = "javauser";
+	private static final String USERPASSWORD = "javapass";
 	private static final String URL = "jdbc:mysql://localhost:3306/world?verifyServerCertificate=false&useSSL=false";
 	
 	public MemberDAO() {		
